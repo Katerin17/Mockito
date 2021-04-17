@@ -1,4 +1,4 @@
-package ru.job4j.trackerupdate;
+package main.ru.job4j.trackerupdate;
 
 import javax.persistence.*;
 
@@ -10,8 +10,6 @@ public class Item {
     private int id;
 
     private String name;
-
-    private long create;
 
     public Item() {
     }
