@@ -6,6 +6,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class HibernateRun {
@@ -15,9 +16,11 @@ public class HibernateRun {
                 .configure().build();
         try {
             SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-            Item item = create(new Item("Learn Hibernate"), sf);
+            Item item = create(new Item("LH", "Learn Hibernate", new Timestamp(1459511232000L)), sf);
+            create(new Item("LJ", "Learn Java", new Timestamp(1459511332000L)), sf);
+            create(new Item("LS", "Learn Spring", new Timestamp(1459511432000L)), sf);
             System.out.println(item);
-            item.setName("Learn Hibernate 5.");
+            item.setName("LH 5.");
             update(item, sf);
             System.out.println(item);
             Item rsl = findById(item.getId(), sf);
@@ -54,7 +57,7 @@ public class HibernateRun {
     public static void delete(Integer id, SessionFactory sf) {
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            Item item = new Item(null);
+            Item item = new Item(null, null, null);
             item.setId(id);
             session.delete(item);
             session.getTransaction().commit();
@@ -65,7 +68,7 @@ public class HibernateRun {
         List<Item> result;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            result = session.createQuery("from main.ru.job4j.tracker.Item").list();
+            result = session.createQuery("from main.ru.job4j.trackerupdate.Item").list();
             session.getTransaction().commit();
         }
         return result;
